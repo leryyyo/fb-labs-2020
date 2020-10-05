@@ -61,7 +61,7 @@ for j in range(0,2,1):
 
     
     print('Биграмы с перетином')
-    
+    print()
     for i in bigram_count:
         fr=100*float(bigram_count[i])/(len(bigrams))
         fr='%.5f' % fr
@@ -79,7 +79,7 @@ for j in range(0,2,1):
 #     #без перетину
     
     print('Биграмы без перетину')
-
+    print()
     for i in range(0,length,2) :
         bigrams_r.append(file[i]+file[i+1])
 
