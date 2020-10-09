@@ -234,4 +234,3 @@ for letter in encrypt_file:
     i=(i+1)%key_r
 
 print('\nDecrypt file:\n',decr_file)
-print()
