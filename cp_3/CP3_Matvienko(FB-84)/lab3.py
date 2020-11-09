@@ -60,21 +60,41 @@ def Analysis(mass):
     th_index=0.055
     closest=9999
     key_r=0
+    print("\tFinding of index\n")
     for i in range(0,len(mass),1):
         iq=math.fabs(th_index-mass[i][1])
         if iq<closest:
+            print("Closest meaning is:",mass[i][1],"with key=(",mass[i][2],",",mass[i][3],"):", iq,"<",closest)
             closest=iq
             closest_amount=mass[i][1]
             key_r=i
+    print("\nINDEX IS:",mass[key_r][1])
     #print("\nKey=(",mass[key_r][2],",",mass[key_r][3],") Index=", closest_amount)
     return(key_r, closest_amount)
 
 
 def Analysis_check(mass,closest_amount):
+    print("\n\tCheck\n")
     if 'о' in mass[4] and 'а' in mass[4] and 'е' in mass[4] and 'ф' not in mass[4] and 'щ' not in mass[4] and 'ь' not in mass[4]:
+        #print("\nEverything is right, dude. It is your decrypted text.\n\n")
         print("Decrypted text with key=(",mass[2],",",mass[3],") with index=", closest_amount ,": \n\n", mass[0])
         return("nice work")
-    else: return(mass)
+    else:
+        print("Key=(",mass[2],",",mass[3],"). Error is:")
+        if 'о' in mass[4]:
+            print('о is absent\n')
+        if 'а' in mass[4]: 
+            print('а is absent\n')
+        if 'е' in mass[4]:
+            print('е is absent\n')
+        if 'ф' not in mass[4]:
+            print('ф is present\n')
+        if 'щ' not in mass[4]: 
+            print('щ is present\n')
+        if 'ь' not in mass[4]:
+            print('ь is present\n')
+        print("\nDecrypted text is wrong. I will try again")
+        return(mass)
 
 
 ##TASK
@@ -98,7 +118,7 @@ bigram_count = sorted(bigram_count.items(), key=operator.itemgetter(1),reverse=T
 bigr_count_fr = sorted(bigr_count_fr.items(), key=operator.itemgetter(1),reverse=True)
 for i in range(5):
     c.append(bigram_count[i][0])
-    print(bigr_count_fr[i])
+    # print(bigr_count_fr[i])
 
 print("\nLanguage:",popular_bigr, "\n\nEncrypted:", c)
 X=[]
@@ -176,3 +196,5 @@ while ret!="nice work":
     ret=Analysis_check(Analysis_mass[key[0]],key[1])    
     if ret!="nice work":
         del Analysis_mass[key]
+
+ 
