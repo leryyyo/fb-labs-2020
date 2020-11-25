@@ -35,12 +35,20 @@ def Test(ran):
         return False
     return ran
 
+def Random_num(size):
+    num=2**(size-1)
+    for i in range(1,size-1,1):
+        b=random.randint(0,1)
+        num+=((2**i)*b)
+    num=num+1
+    return num
+
 def Generate(size):
     ran_mass=[]
     for i in range(0,2,1):
-        ran=random.getrandbits(size)
+        ran=Random_num(size)
         while Test(ran)==False:
-            ran=random.getrandbits(size)
+            ran=Random_num(size)
         ran_mass.append(ran)
     return ran_mass
 
@@ -113,7 +121,7 @@ def SendKey(A_key,B_open, M):
     print('\nSecret text is encrypted. K1=%s'% hex(k1))
     S=Sign(M,A_key[1][0],A_key[1][2])
     print('The message has been signed with Alice\'s secret key. S=%s'% hex(S))
-    S1=Sign(S,B_open[1],B_open[0])
+    S1=Encrypt(S,B_open)
     print('Alice\'s sign has been signed with Bob\'s open key. S1=%s'% hex(S1))
     A_message=[k1,S1]
     return A_message
@@ -137,11 +145,12 @@ if int(choose)==1:
     pairs=Generate(256)
     A_keys=GenerateKeyPair(pairs)
     message=random.randint(0,A_keys[0][0]-1)
-    print('Alice has generated secret message \'%s\' for Bob.'% hex(message))
-    nB=int(0x97012FE513F03C493237BD1DF597AE9F61FBAD69994C01FF877521404D52ACE462057A3F35A96F30DF94FC4F3F171EEB2C98F76CE023464E5DAD16E12A7F80C3)
+    print('\nI have generated open key (n=%s, e=%s) and secret key (d=%s, pq=%s, %s) for Alice.'% (hex(A_keys[0][0]),hex(A_keys[0][1]),hex(A_keys[1][0]),hex(A_keys[1][1][0]),hex(A_keys[1][1][1])))
+    print('\nAlice has generated secret message \'%s\' for Bob.'% hex(message))
+    nB=int(0x8B856D59DE4C42D743D2A1F90915A2B57BB93FB6A18C642F954F0011296E322185D566CBB6083E6E5CDC10143EF991960E7D689D4B4DD77C7C84878433575445)
     eB=int(0x10001)
     B_open=[nB,eB]
-    print(B_open)
+    print('\nWebsite has generated open key (n=%s, e=%s for Bob)'% (B_open[0],B_open[1]))
     k,S=SendKey(A_keys,B_open,message)
     print('\nk1=',hex(k)[2:],'\nS1=',hex(S)[2:])
     print('\nn=',hex(A_keys[0][0])[2:],'\ne=',hex(A_keys[0][1])[2:])
