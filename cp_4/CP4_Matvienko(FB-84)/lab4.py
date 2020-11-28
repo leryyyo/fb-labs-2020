@@ -128,13 +128,12 @@ def SendKey(A_key,B_open, M):
 
 def ReceiveKey(mess,B_secret,A_open):
     print('Bob is checking Alice\'s sign.\n\n\tRECEIVE KEY\n')
-    k=pow(mess[0],B_secret[0],B_secret[2])
+    k=Decrypt(mess[0], B_secret)
     print('Value k is %s'% hex(k))
-    S=pow(mess[1],B_secret[0],B_secret[2])
+    S=Decrypt(mess[1],B_secret)
     print('Value S is %s'% hex(S))
-    print('S^(3)mod(n)=',hex(pow(S,A_open[1],A_open[0])))
-    if k==pow(S,A_open[1],A_open[0]): return True
-    else: return False
+    print('S^(e)mod(n)=',hex(pow(S,A_open[1],A_open[0])))
+    return Verify(S,k,A_open)
 
 #TASK
 print('\nHello! Choose:\n1) Website\n2) Python')
